@@ -797,7 +797,7 @@ function buildMenu(): void {
       submenu: [
         {
           label: 'About huasMD',
-          click: () => shell.openExternal('https://github.com/huasMD/huasMD')
+          click: () => shell.openExternal('https://github.com/ikevssy/huasMD')
         }
       ]
     }

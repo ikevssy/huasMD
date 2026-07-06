@@ -7,10 +7,10 @@
     "name": "huasMD"
   },
   "license": "MIT",
-  "homepage": "https://github.com/huasMD/huasMD",
+  "homepage": "https://github.com/ikevssy/huasMD",
   "repository": {
     "type": "git",
-    "url": "https://github.com/huasMD/huasMD.git"
+    "url": "https://github.com/ikevssy/huasMD.git"
   },
   "scripts": {
     "dev": "electron-vite dev",

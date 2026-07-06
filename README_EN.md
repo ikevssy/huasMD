@@ -98,7 +98,7 @@ Supported layouts: `cover` · `statement` · `section` · `video` · `thankyou`
 
 ## Download
 
-> Check [Releases](https://github.com/huasMD/huasMD/releases) for the latest builds.
+> Check [Releases](https://github.com/ikevssy/huasMD/releases) for the latest builds.
 
 | Platform | Format |
 |----------|--------|
@@ -143,7 +143,7 @@ One thing, done well.
 ## Development
 
 ```bash
-git clone https://github.com/huasMD/huasMD.git
+git clone https://github.com/ikevssy/huasMD.git
 cd huasMD
 npm install
 npm run dev
