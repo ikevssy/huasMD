@@ -6,7 +6,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import { createServer as createHttpServer } from 'http'
 
 // Custom themes directory
-const themesDir = join(app.getPath('home'), '.colamd', 'themes')
+const themesDir = join(app.getPath('home'), '.huasMD', 'themes')
 
 function ensureThemesDir(): void {
   if (!existsSync(themesDir)) {
@@ -57,6 +57,7 @@ function createWindow(filePath?: string): BrowserWindow {
     minWidth: 600,
     minHeight: 400,
     titleBarStyle: 'hiddenInset',
+    autoHideMenuBar: true,
     trafficLightPosition: { x: 16, y: 16 },
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -67,6 +68,11 @@ function createWindow(filePath?: string): BrowserWindow {
   })
 
   const state = getState(win)
+
+  // Hide native menu bar on Windows/Linux (keep for macOS system bar)
+  if (process.platform !== 'darwin') {
+    win.setMenuBarVisibility(false)
+  }
 
   if (process.env.ELECTRON_RENDERER_URL) {
     win.loadURL(process.env.ELECTRON_RENDERER_URL)
@@ -92,7 +98,7 @@ function createWindow(filePath?: string): BrowserWindow {
 function updateTitle(win: BrowserWindow): void {
   const state = getState(win)
   const fileName = state.filePath ? basename(state.filePath) : 'Untitled'
-  win.setTitle(`${fileName} — ColaMD`)
+  win.setTitle(`${fileName} — huasMD`)
 }
 
 function suggestFileName(win: BrowserWindow, content?: string): string | undefined {
@@ -646,6 +652,10 @@ ipcMain.handle('load-theme-css', async (_event, fileName: string) => {
   }
 })
 
+ipcMain.handle('get-custom-themes', async () => {
+  return scanCustomThemes()
+})
+
 // Menu — targets the focused window
 
 function getFocusedWindow(): BrowserWindow | null {
@@ -694,7 +704,7 @@ function buildMenu(): void {
 
   const template: Electron.MenuItemConstructorOptions[] = [
     ...(isMac ? [{
-      label: 'ColaMD',
+      label: 'huasMD',
       submenu: [
         { role: 'about' as const },
         { type: 'separator' as const },
@@ -786,8 +796,8 @@ function buildMenu(): void {
       label: 'Help',
       submenu: [
         {
-          label: 'About ColaMD',
-          click: () => shell.openExternal('https://github.com/marswaveai/colamd')
+          label: 'About huasMD',
+          click: () => shell.openExternal('https://github.com/huasMD/huasMD')
         }
       ]
     }

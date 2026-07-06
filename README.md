@@ -1,164 +1,157 @@
-# ColaMD
+# huasMD
 
-**Markdown as Database. The Agent Native editor and template rendering platform.**
+**Markdown as Database。Agent Native 的编辑器与模板渲染平台。**
 
-Real-time collaboration between humans and AI agents — see your agent's changes as they happen. Turn any Markdown file into a slide deck, blog post, resume, or product page.
+人类与 AI Agent 的实时协作 — Agent 的每一次修改，你都能即时看到。把任意 Markdown 文件渲染成幻灯片、博客、简历或产品页。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/marswaveai/colamd.svg)](https://github.com/marswaveai/colamd/releases)
 
-[Download](#download) | [Why ColaMD](#why-colamd) | [Features](#features) | [Slides](#slides--markdown-as-database) | [Development](#development) | [中文](README_CN.md)
+[English](README_EN.md) | [下载](#下载) | [功能](#功能) | [幻灯片](#幻灯片--markdown-as-database) | [开发](#开发)
 
 ---
 
-## Why ColaMD?
+## 为什么做 huasMD？
 
-AI agents are rewriting how we work. They edit files, generate docs, and produce reports — all in Markdown.
+AI Agent 正在改变我们的工作方式。它们编辑文件、生成文档、产出报告 — 全是 Markdown。
 
-But how do you **watch** an agent work? You close the file. You reopen it. You wait.
+但你怎么**看到** Agent 的工作？关掉文件？再打开？等着？
 
-**ColaMD changes this.** Open a `.md` file in ColaMD, let your agent edit it, and watch the content update in real-time — like pair programming with an AI. No refresh, no reload, no friction.
+**huasMD 改变了这一切。** 用 huasMD 打开 `.md` 文件，让 Agent 去编辑它，内容会实时更新 — 就像和 AI 结对编程。不需要刷新，不需要重新加载，零摩擦。
 
-This is what **Agent Native** means: built from the ground up for a world where humans and agents collaborate on the same files.
+这就是 **Agent Native** 的含义：从底层为人类和 Agent 协作而生。
 
-## Features
+## 功能
 
 ### Agent Native
 
-- **Live Agent Sync** — When an AI agent (Claude Code, Cursor, Copilot, etc.) modifies your `.md` file, ColaMD detects the change and refreshes instantly. This is the core feature.
-- **Agent Activity Indicator** — A subtle dot in the titlebar shows you when an agent is writing: orange breathing pulse while active, green flash when done. You always know if your agent is working.
-- **Cmd+Click Links** — Click any link in the editor to open it in your browser.
+- **实时 Agent 同步** — AI Agent（Claude Code、Cursor、Copilot 等）修改 `.md` 文件时，huasMD 自动检测并即时刷新。这是核心功能。
+- **Agent 活动指示器** — 标题栏的小圆点告诉你 Agent 的状态：橙色呼吸闪烁表示正在写入，绿色闪现表示写入完成。
+- **Cmd+点击链接** — 点击编辑器中的链接直接在浏览器打开。
 
-### Editor
+### 编辑器
 
-- **True WYSIWYG** — Type Markdown, see rich text. No split-pane preview.
-- **Smart Line Breaks** — Single newlines render as line breaks, matching how AI agents write Markdown.
-- **Rich Text Copy** — Copy content and paste into WeChat, email, or any rich text editor with formatting preserved.
-- **Minimal by Design** — No toolbar, no sidebar, no distractions. Just your content.
+- **真正的所见即所得** — 输入 Markdown，直接看到富文本，无需分屏预览。
+- **智能换行** — 单个换行即渲染为换行，匹配 AI Agent 写 Markdown 的习惯。
+- **富文本复制** — 复制内容后可直接粘贴到公众号、邮件等富文本编辑器，格式完整保留。
+- **全宽模式** — 点击底部状态栏 ↔️ 图标，编辑区从 780px 扩展到 1400px，宽表格阅读无压力。
+- **极简设计** — 没有工具栏，没有侧边栏，没有干扰。只有你的内容。
 
-### Themes & Export
+### 界面与效率
 
-- **Themes** — 4 built-in themes + [downloadable themes](themes/) + import custom CSS.
-- **Export** — PDF and HTML.
-- **Cross-platform** — macOS, Windows, Linux.
+- **底部状态栏** — 菜单栏移到底部，图标式操作更简洁：新建、打开、保存，一键直达。
+- **中英文切换** — 点击 🌐 一键切换界面语言，支持中文和 English。
+- **目录导航** — 点击右上角 ☰ 图标，浮层展示文档大纲（H1-H6），点击跳转，内容变化实时刷新。
 
-## Slides — Markdown as Database
+### 主题与导出
 
-HTML is hard to edit. Markdown is easy.
+- **9 个内置主题** — 明亮、暗黑、典雅、报纸、羊皮纸、太阳光、GitHub 明亮、Material 明亮、Material 海洋。每种主题的粗体和代码有独特的强调色。
+- **自定义主题** — 支持导入 `.css` 文件作为主题，保存到 `~/.huasMD/themes/`。
+- **导出** — PDF、HTML 单文件、幻灯片（单文件 HTML 或文件夹）。
+- **跨平台** — macOS、Windows、Linux。
 
-ColaMD introduces a new idea: **Markdown as Database**. Your `.md` file is the content layer. HTML templates are the view layer. Change the content by editing Markdown — never touch the HTML.
+## 幻灯片 — Markdown as Database
 
-One Markdown file. Many possible renderings: slide deck, blog, resume, product page. Future templates can consume the same file in completely different ways.
+HTML 难改。Markdown 好改。
 
-### How to use
+huasMD 提出一个新理念：**Markdown as Database**。`.md` 文件是内容层，HTML 模板是视图层。改内容只改 Markdown，完全不碰 HTML。
 
-**File → New Slides (`⌘⇧N`)** — Creates a `slides.md` tutorial template and opens it in the editor.
+一份 Markdown，多种渲染形态：幻灯片、博客、简历、产品页……未来各种模板都可以消费同一份文件。
 
-**File → Open as Slides (`⌘⇧P`)** — Spins up a local server and opens your current `.md` file as a slide deck in the browser. If no file is open, it creates one first.
+### 使用方式
 
-**File → Export Slides...** — Export a shareable version. Without video: a single `.html` file with images inlined as base64 — your friend double-clicks to view. With video: a folder containing `index.html` plus the video files — zip and send.
+**文件 → 新建幻灯片** — 创建幻灯片模板，在编辑器里直接编辑内容。
 
-### Slide format
+**文件 → 作为幻灯片打开** — 启动本地服务，在浏览器打开当前文件的幻灯片。
+
+**文件 → 导出幻灯片** — 导出可分享版本。不含视频：单个 `.html` 文件，图片 base64 内嵌。含视频：导出文件夹，整体打包发送。
+
+### Slide 格式
 
 ```markdown
 ---
 kicker: YOUR BRAND
-chip: Event · 2026
+chip: 活动名称 · 2026
 page: YOUR NAME
 ---
 
 <!-- type: cover -->
-# Title
-Subtitle here
+# 标题
+副标题
 
 ---
 
 <!-- type: statement -->
-## Key Message
-One powerful sentence.
+## 核心观点
+一句有力量的话。
 
 ---
 
-## Section
-First point.
-
-Second point.
+## 章节
+第一个要点。
 
 ---
 
 <!-- type: thankyou -->
-## Thank You
-Closing message
-
-call-to-action
+## 谢谢
+结束语
 ```
 
-Supported layouts: `cover` · `statement` · `section` · `video` · `thankyou`
+支持版式：`cover` · `statement` · `section` · `video` · `thankyou`
 
-Optional: background image (`bg: cover.png`), video embed (`src: demo.mp4`), inline image preview (`preview: screenshot.png`).
+## 下载
 
-No image? The cover falls back to a clean orange-on-white design — it just works.
+> 查看 [Releases](https://github.com/huasMD/huasMD/releases) 获取最新构建。
 
-## Download
+| 平台 | 格式 |
+|------|------|
+| macOS | `.dmg` |
+| Windows | `.exe` |
+| Linux | `.AppImage` / `.deb` |
 
-> Check [Releases](https://github.com/marswaveai/colamd/releases) for the latest builds.
-
-| Platform | Format |
-|----------|--------|
-| macOS    | `.dmg` |
-| Windows  | `.exe` |
-| Linux    | `.AppImage` / `.deb` |
-
-## How It Works
+## 工作原理
 
 ```
-┌─────────────┐     writes     ┌──────────────┐
-│  AI Agent   │ ──────────────▶│  .md file    │
+┌─────────────┐     写入      ┌──────────────┐
+│  AI Agent   │ ──────────────▶│  .md 文件    │
 │ (Claude,    │                │              │
 │  Cursor...) │                └──────┬───────┘
 └─────────────┘                       │
-                              fs.watch detects
+                              fs.watch 检测变化
                                       │
                               ┌───────▼───────┐
-                              │    ColaMD     │
-                              │  auto-refresh │
-                              │   ✨ live!    │
+                              │    huasMD     │
+                              │   自动刷新    │
+                              │   ✨ 实时！   │
                               └───────────────┘
 ```
 
-1. Open any `.md` file in ColaMD
-2. Let your AI agent edit that file
-3. Watch the content update in real-time — the indicator dot pulses orange while the agent writes
+1. 用 huasMD 打开任意 `.md` 文件
+2. 让 AI Agent 编辑这个文件
+3. 看着内容实时更新 — 标题栏的指示器会在 Agent 写入时亮起橙色脉冲
 
-No configuration needed. It just works.
+不需要任何配置，开箱即用。
 
-## What ColaMD Does NOT Do
+## huasMD 不做的事
 
-ColaMD is intentionally simple:
+huasMD 有意保持简单：
 
-- No file manager or workspace
-- No cloud sync or collaboration
-- No AI features built in — it's a **viewer/editor** for AI-generated content
-- No plugin system
+- 没有文件管理器或工作区
+- 没有云同步或协作编辑
+- 没有内置 AI 功能 — 它是 AI 生成内容的**查看器/编辑器**
+- 没有插件系统
 
-One thing, done well.
+一件事，做到极致。
 
-## Custom Themes
-
-ColaMD supports custom CSS themes. Download themes from the [`themes/`](themes/) folder, or create your own and import via **Theme > Import Theme**.
-
-Imported themes are saved to `~/.colamd/themes/` and persist across sessions.
-
-## Development
+## 开发
 
 ```bash
-git clone https://github.com/marswaveai/colamd.git
-cd colamd
+git clone https://github.com/huasMD/huasMD.git
+cd huasMD
 npm install
 npm run dev
 ```
 
-### Build
+### 构建
 
 ```bash
 npm run dist:mac
@@ -166,28 +159,17 @@ npm run dist:win
 npm run dist:linux
 ```
 
-### Tech Stack
+### 技术栈
 
-- **Electron** — Cross-platform desktop
-- **Milkdown** — WYSIWYG Markdown (ProseMirror-based)
-- **TypeScript** — Strict mode
-- **electron-vite** — Fast builds
+- **Electron** — 跨平台桌面
+- **Milkdown** — 所见即所得 Markdown（基于 ProseMirror）
+- **TypeScript** — 严格模式
+- **electron-vite** — 快速构建
 
-## Roadmap
+## 开源协议
 
-ColaMD will evolve alongside the agent ecosystem:
-
-- v1.1 — Live file reload, file associations, drag & drop, themes
-- v1.2 — New icon
-- v1.3 — Agent activity indicator, Cmd+click links, rich text copy, smart line breaks, PDF/HTML export, theme persistence
-- v1.4 — Slides: Markdown as Database, HTML template rendering
-- v1.5 — Export Slides: shareable single-file HTML with inlined images (current)
-- Future — More templates, bidirectional sync, multi-file watching
-
-## License
-
-[MIT](LICENSE) — Free forever.
+[MIT](LICENSE) — 永久免费。
 
 ---
 
-Built by [marswave.ai](https://marswave.ai) for the agent-native future.
+基于 [marswave.ai/ColaMD](https://github.com/marswaveai/colamd) 二次开发。

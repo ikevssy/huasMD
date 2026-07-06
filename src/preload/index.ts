@@ -11,6 +11,7 @@ export interface ElectronAPI {
   openAsSlides: (content: string) => Promise<boolean>
   loadCustomTheme: () => Promise<{ name: string; css: string } | null>
   loadThemeCSS: (fileName: string) => Promise<string | null>
+  getCustomThemes: () => Promise<string[]>
   getPathForFile: (file: File) => string
   openExternal: (url: string) => void
   onFileChanged: (callback: (content: string) => void) => void
@@ -43,6 +44,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openAsSlides: (content: string) => ipcRenderer.invoke('open-as-slides', content),
   loadCustomTheme: () => ipcRenderer.invoke('load-custom-theme'),
   loadThemeCSS: (fileName: string) => ipcRenderer.invoke('load-theme-css', fileName),
+  getCustomThemes: () => ipcRenderer.invoke('get-custom-themes'),
   getPathForFile: (file: File) => webUtils.getPathForFile(file),
   openExternal: (url: string) => ipcRenderer.send('open-external', url),
   onFileChanged: (callback: (content: string) => void) => {

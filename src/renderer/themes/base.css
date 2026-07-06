@@ -17,6 +17,10 @@ html, body {
   height: 52px;
   flex-shrink: 0;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 12px;
 }
 
 #agent-dot {
@@ -32,31 +36,48 @@ html, body {
   transition: background 0.3s ease, opacity 0.3s ease;
 }
 
-#slides-btn {
-  position: absolute;
-  top: 14px;
-  right: 32px;
+/* Titlebar icon buttons (slides / toc / width) share a common style */
+.tb-icon-btn {
   width: 28px;
   height: 28px;
+  margin-left: 4px;
   border-radius: 6px;
   border: none;
   background: transparent;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 15px;
   cursor: pointer;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   -webkit-app-region: no-drag;
   transition: background 0.15s, color 0.15s;
 }
 
-#slides-btn:hover {
+.tb-icon-btn:hover {
+  background: var(--hover-bg, rgba(0,0,0,0.06));
+  color: var(--text-color);
+}
+
+.tb-icon-btn.active {
   background: var(--accent-soft, rgba(241,117,45,0.12));
-  color: #F1752D;
+  color: var(--accent-color, #F1752D);
+}
+
+.tb-icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+#slides-btn {
+  display: none;
 }
 
 #slides-btn.visible {
+  display: flex;
+}
+
+#toc-btn {
   display: flex;
 }
 
@@ -78,14 +99,14 @@ html, body {
 }
 
 #editor {
-  height: calc(100vh - 52px);
+  height: calc(100vh - 92px);
   overflow-y: auto;
   padding: 0 40px 40px;
 }
 
 #source-editor {
   display: none;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 92px);
   width: 100%;
   padding: 40px;
   box-sizing: border-box;
@@ -112,10 +133,16 @@ html, body {
   outline: none;
   max-width: 780px;
   margin: 0 auto;
-  min-height: calc(100vh - 92px);
+  min-height: calc(100vh - 132px);
   font-size: 16px;
   line-height: 1.75;
   color: var(--text-color);
+  transition: max-width 0.2s ease;
+}
+
+/* Full-width mode: relax the editor width for wide tables */
+body.wide-mode #editor .ProseMirror {
+  max-width: 1400px;
 }
 
 #editor .ProseMirror > * + * {
@@ -259,6 +286,183 @@ html, body {
   background: var(--selection-bg);
 }
 
+/* ======= STATUS BAR (bottom) ======= */
+
+#statusbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  background: var(--statusbar-bg, var(--bg-color));
+  border-top: 1px solid var(--border-color);
+  z-index: 90;
+  -webkit-app-region: no-drag;
+}
+
+.sb-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.sb-spacer {
+  flex: 1;
+}
+
+.sb-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border-color);
+  margin: 0 6px;
+}
+
+.sb-btn {
+  height: 30px;
+  min-width: 30px;
+  padding: 0 7px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sb-btn:hover {
+  background: var(--hover-bg, rgba(0,0,0,0.06));
+  color: var(--text-color);
+}
+
+.sb-btn.active {
+  background: var(--accent-soft, rgba(241,117,45,0.12));
+  color: var(--accent-color, #F1752D);
+}
+
+.sb-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* ======= POPOVER PANEL (theme / language / export) ======= */
+
+#pop-panel {
+  position: fixed;
+  bottom: 44px;
+  z-index: 95;
+  min-width: 180px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--pop-bg, var(--bg-color));
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.14);
+}
+
+#pop-panel.hidden {
+  display: none;
+}
+
+.pop-section {
+  padding: 6px 10px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 13px;
+  transition: background 0.12s;
+}
+
+.pop-item:hover {
+  background: var(--hover-bg, rgba(0,0,0,0.06));
+}
+
+.pop-item.active {
+  color: var(--accent-color, #F1752D);
+  font-weight: 600;
+}
+
+.pop-item .check {
+  width: 14px;
+  margin-left: auto;
+  opacity: 0.8;
+}
+
+/* ======= TOC OUTLINE PANEL ======= */
+
+#toc-panel {
+  position: fixed;
+  top: 52px;
+  right: 0;
+  width: 280px;
+  max-height: calc(100vh - 132px);
+  overflow-y: auto;
+  padding: 12px 8px;
+  background: var(--bg-color);
+  border-left: 1px solid var(--border-color);
+  box-shadow: -4px 0 16px rgba(0,0,0,0.08);
+  z-index: 100;
+}
+
+#toc-panel.hidden {
+  display: none;
+}
+
+.toc-header {
+  padding: 0 8px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.toc-item {
+  display: block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.12s, color 0.12s;
+}
+
+.toc-item:hover {
+  background: var(--hover-bg, rgba(0,0,0,0.06));
+  color: var(--text-color);
+}
+
+.toc-empty {
+  padding: 8px 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  opacity: 0.7;
+}
+
 /* ======= THEMES ======= */
 
 body, body.theme-light {
@@ -272,6 +476,10 @@ body, body.theme-light {
   --blockquote-border: #d0d7de;
   --table-header-bg: #f6f8fa;
   --selection-bg: rgba(9, 105, 218, 0.15);
+  --statusbar-bg: #fbfbfc;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --accent-color: #0969da;
+  --accent-soft: rgba(9, 105, 218, 0.10);
 }
 
 body.theme-dark {
@@ -285,6 +493,10 @@ body.theme-dark {
   --blockquote-border: #30363d;
   --table-header-bg: #161b22;
   --selection-bg: rgba(88, 166, 255, 0.2);
+  --statusbar-bg: #0d1117;
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --accent-color: #58a6ff;
+  --accent-soft: rgba(88, 166, 255, 0.14);
 }
 
 body.theme-elegant {
@@ -301,6 +513,10 @@ body.theme-elegant {
   --table-header-bg: #eae6e1;
   --table-border: #d8d3ce;
   --selection-bg: rgba(196, 75, 43, 0.2);
+  --statusbar-bg: #eae6e1;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --accent-color: #c44b2b;
+  --accent-soft: rgba(196, 75, 43, 0.12);
 }
 
 body.theme-elegant #editor .ProseMirror {
@@ -349,10 +565,163 @@ body.theme-newsprint {
   --blockquote-border: #999;
   --table-header-bg: #eae6de;
   --selection-bg: rgba(44, 95, 138, 0.15);
+  --statusbar-bg: #efebe1;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --accent-color: #2c5f8a;
+  --accent-soft: rgba(44, 95, 138, 0.10);
 }
 
 body.theme-newsprint #editor .ProseMirror {
   font-family: 'PT Serif', Georgia, serif;
+}
+
+/* --- Sepia: warm brown reading theme --- */
+body.theme-sepia {
+  --bg-color: #faf3dd;
+  --text-color: #4a3f35;
+  --text-muted: #8a7860;
+  --border-color: #e3d8b8;
+  --link-color: #8b5a2b;
+  --code-bg: #efe3c0;
+  --code-block-bg: #4a3f35;
+  --code-block-text: #faf3dd;
+  --blockquote-border: #8b5a2b;
+  --blockquote-bg: #f0e6c8;
+  --table-header-bg: #f0e6c8;
+  --selection-bg: rgba(139, 90, 43, 0.18);
+  --statusbar-bg: #f5ecd0;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --accent-color: #8b5a2b;
+  --accent-soft: rgba(139, 90, 43, 0.12);
+}
+
+body.theme-sepia #editor .ProseMirror {
+  font-family: 'LXGW WenKai', 'Noto Serif SC', Georgia, serif;
+  line-height: 1.85;
+}
+
+body.theme-sepia #editor .ProseMirror strong {
+  color: #8b5a2b;
+  font-weight: 700;
+}
+
+body.theme-sepia #editor .ProseMirror code {
+  color: #8b5a2b;
+}
+
+/* --- Solarized Light: warm yellow, high readability --- */
+body.theme-solarized_light {
+  --bg-color: #fdf6e3;
+  --text-color: #586e75;
+  --text-muted: #93a1a1;
+  --border-color: #eee8d5;
+  --link-color: #268bd2;
+  --code-bg: #eee8d5;
+  --code-block-bg: #073642;
+  --code-block-text: #93a1a1;
+  --blockquote-border: #b58900;
+  --blockquote-bg: #eee8d5;
+  --table-header-bg: #eee8d5;
+  --selection-bg: rgba(181, 137, 0, 0.18);
+  --statusbar-bg: #f5edd0;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --accent-color: #b58900;
+  --accent-soft: rgba(181, 137, 0, 0.12);
+}
+
+body.theme-solarized_light #editor .ProseMirror {
+  font-family: 'Source Code Pro', 'Menlo', monospace;
+  line-height: 1.8;
+}
+
+body.theme-solarized_light #editor .ProseMirror strong {
+  color: #b58900;
+  font-weight: 700;
+}
+
+body.theme-solarized_light #editor .ProseMirror code {
+  color: #b58900;
+}
+
+/* --- GitHub Light: clean professional --- */
+body.theme-github_light {
+  --bg-color: #ffffff;
+  --text-color: #1f2328;
+  --text-muted: #656d76;
+  --border-color: #d0d7de;
+  --link-color: #0969da;
+  --code-bg: rgba(175, 184, 193, 0.2);
+  --code-block-bg: #f6f8fa;
+  --blockquote-border: #d0d7de;
+  --table-header-bg: #f6f8fa;
+  --selection-bg: rgba(9, 105, 218, 0.15);
+  --statusbar-bg: #f6f8fa;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --accent-color: #0969da;
+  --accent-soft: rgba(9, 105, 218, 0.10);
+}
+
+body.theme-github_light #editor .ProseMirror strong {
+  color: #1f2328;
+  font-weight: 700;
+}
+
+/* --- Material Light --- */
+body.theme-material_light {
+  --bg-color: #fafafa;
+  --text-color: #263238;
+  --text-muted: #78909c;
+  --border-color: #eceff1;
+  --link-color: #00897b;
+  --code-bg: #eceff1;
+  --code-block-bg: #263238;
+  --code-block-text: #eceff1;
+  --blockquote-border: #00897b;
+  --blockquote-bg: #f1f8f7;
+  --table-header-bg: #f1f8f7;
+  --selection-bg: rgba(0, 137, 123, 0.15);
+  --statusbar-bg: #f5f5f5;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --accent-color: #00897b;
+  --accent-soft: rgba(0, 137, 123, 0.12);
+}
+
+body.theme-material_light #editor .ProseMirror strong {
+  color: #00897b;
+  font-weight: 700;
+}
+
+body.theme-material_light #editor .ProseMirror code {
+  color: #00897b;
+}
+
+/* --- Material Ocean: deep blue-purple --- */
+body.theme-material_ocean {
+  --bg-color: #0f111a;
+  --text-color: #a6accd;
+  --text-muted: #717cb4;
+  --border-color: #1f2233;
+  --link-color: #84ffff;
+  --code-bg: #1f2233;
+  --code-block-bg: #090b14;
+  --code-block-text: #a6accd;
+  --blockquote-border: #84ffff;
+  --blockquote-bg: #16171f;
+  --table-header-bg: #16171f;
+  --selection-bg: rgba(132, 255, 255, 0.2);
+  --statusbar-bg: #0b0d16;
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --accent-color: #84ffff;
+  --accent-soft: rgba(132, 255, 255, 0.12);
+}
+
+body.theme-material_ocean #editor .ProseMirror strong {
+  color: #84ffff;
+  font-weight: 700;
+}
+
+body.theme-material_ocean #editor .ProseMirror code {
+  color: #84ffff;
 }
 
 /* Scrollbar */

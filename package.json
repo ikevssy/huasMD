@@ -1,17 +1,16 @@
 {
-  "name": "colamd",
-  "version": "1.5.0",
-  "description": "The Agent Native Markdown Editor",
+  "name": "huasMD",
+  "version": "0.1.0",
+  "description": "Agent Native Markdown 编辑器 — Markdown as Database，支持中英文切换、多主题、目录导航",
   "main": "dist/main/index.js",
   "author": {
-    "name": "marswave.ai",
-    "email": "hello@marswave.ai"
+    "name": "huasMD"
   },
   "license": "MIT",
-  "homepage": "https://github.com/marswaveai/colamd",
+  "homepage": "https://github.com/huasMD/huasMD",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marswaveai/colamd.git"
+    "url": "https://github.com/huasMD/huasMD.git"
   },
   "scripts": {
     "dev": "electron-vite dev",
