@@ -1,6 +1,6 @@
 {
   "name": "huasMD",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Agent Native Markdown 编辑器 — Markdown as Database，支持中英文切换、多主题、目录导航",
   "main": "dist/main/index.js",
   "author": {

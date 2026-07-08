@@ -31,8 +31,9 @@ const dict: Record<Lang, Dict> = {
     // Export panel
     'export.pdf': '导出 PDF…',
     'export.html': '导出 HTML…',
-    'export.slides': '导出幻灯片…',
+    'export.slides': '导出 HTML 幻灯片…',
     'export.pptx': '导出 PPTX…',
+    'export.slides_html': '导出 HTML 幻灯片…',
     'export.open_as_slides': '作为幻灯片打开',
     // Titlebar icons
     'slides.open': '作为幻灯片打开',
@@ -69,8 +70,9 @@ const dict: Record<Lang, Dict> = {
     'lang.en': 'English',
     'export.pdf': 'Export PDF…',
     'export.html': 'Export HTML…',
-    'export.slides': 'Export Slides…',
+    'export.slides': 'Export HTML Slides…',
     'export.pptx': 'Export PPTX…',
+    'export.slides_html': 'Export HTML Slides…',
     'export.open_as_slides': 'Open as Slides',
     'slides.open': 'Open as Slides',
     'toc.title': 'Outline',

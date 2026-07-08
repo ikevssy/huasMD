@@ -377,12 +377,12 @@ ipcMain.handle('export-pdf', async (event) => {
   try {
     // Expand editor to full content height for printing
     const cssKey = await win.webContents.insertCSS(
-      'html, body { height: auto !important; overflow: visible !important; } ' +
+      'html, body { height: auto !important; overflow: visible !important; margin: 0 !important; padding: 0 !important; } ' +
       '#titlebar, #statusbar, #pop-panel, #toc-panel, #search-bar { display: none !important; } ' +
-      '#editor { height: auto !important; overflow: visible !important; } ' +
-      '#editor .ProseMirror { min-height: auto !important; } ' +
+      '#editor { height: auto !important; overflow: visible !important; padding: 0 !important; } ' +
+      '#editor .ProseMirror { min-height: auto !important; max-width: none !important; margin: 0 !important; padding: 10px 20px !important; } ' +
       '#editor .ProseMirror p { margin: 0.15em 0; } ' +
-      '#editor .ProseMirror img { margin: 0; }'
+      '#editor .ProseMirror img { margin: 0; max-width: 100%; }'
     )
     const pdfData = await win.webContents.printToPDF({
       marginType: 0,
@@ -446,10 +446,14 @@ function getOrCreateSlidesServer(dir: string): Promise<number> {
       const url = req.url === '/' ? '/template.html' : (req.url || '/')
       const filePath = join(dir, url.split('?')[0])
       const ext = extname(filePath).toLowerCase()
-      const mime = MIME[ext] || 'application/octet-stream'
-      try {
-        const data = readFileSync(filePath)
-        res.writeHead(200, { 'Content-Type': mime })
+        const mime = MIME[ext] || 'application/octet-stream'
+        try {
+          const data = readFileSync(filePath)
+          res.writeHead(200, {
+            'Content-Type': mime,
+            'Cache-Control': 'no-store, no-cache, must-revalidate',
+            'Pragma': 'no-cache'
+          })
         res.end(data)
       } catch {
         res.writeHead(404)

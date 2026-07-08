@@ -251,10 +251,10 @@ function renderExportPanel(): void {
   const api = window.electronAPI
   popPanelEl().innerHTML = `
     <div class="pop-section">${t('panel.export')}</div>
-    <div class="pop-item" data-export="pdf"><span>${t('export.pdf')}</span></div>
-    <div class="pop-item" data-export="html"><span>${t('export.html')}</span></div>
-    <div class="pop-item" data-export="slides"><span>${t('export.slides')}</span></div>
     <div class="pop-item" data-export="pptx"><span>${t('export.pptx')}</span></div>
+    <div class="pop-item" data-export="pdf"><span>${t('export.pdf')}</span></div>
+    <div class="pop-item" data-export="slides"><span>${t('export.slides_html')}</span></div>
+    <div class="pop-item" data-export="html"><span>${t('export.html')}</span></div>
     <div class="pop-item" data-export="open-as-slides"><span>${t('export.open_as_slides')}</span></div>
   `
   popPanelEl().querySelectorAll<HTMLElement>('[data-export]').forEach(el => {
