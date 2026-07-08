@@ -1,17 +1,17 @@
 {
   "name": "huasMD",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Agent Native Markdown 编辑器 — Markdown as Database，支持中英文切换、多主题、目录导航",
   "main": "dist/main/index.js",
   "author": {
-    "name": "huasMD",
+    "name": "ikevss",
     "email": "hello@huasmd.dev"
   },
   "license": "MIT",
-  "homepage": "https://github.com/ikevssy/huasMD",
+  "homepage": "https://github.com/ikevss/huasMD",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ikevssy/huasMD.git"
+    "url": "https://github.com/ikevss/huasMD.git"
   },
   "scripts": {
     "dev": "electron-vite dev",
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@milkdown/kit": "^7.19.2",
+    "pptxgenjs": "^4.0.1",
     "remark-breaks": "^4.0.0"
   },
   "devDependencies": {

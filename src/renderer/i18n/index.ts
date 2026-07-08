@@ -32,6 +32,7 @@ const dict: Record<Lang, Dict> = {
     'export.pdf': '导出 PDF…',
     'export.html': '导出 HTML…',
     'export.slides': '导出幻灯片…',
+    'export.pptx': '导出 PPTX…',
     'export.open_as_slides': '作为幻灯片打开',
     // Titlebar icons
     'slides.open': '作为幻灯片打开',
@@ -39,6 +40,8 @@ const dict: Record<Lang, Dict> = {
     'toc.empty': '暂无标题',
     'width.toggle': '切换全宽',
     'search.placeholder': '查找...',
+    'agent.writing': 'AI 正在写入…',
+    'agent.done': '写入完成',
     // Misc
     'app.name': 'huasMD'
   },
@@ -65,12 +68,15 @@ const dict: Record<Lang, Dict> = {
     'export.pdf': 'Export PDF…',
     'export.html': 'Export HTML…',
     'export.slides': 'Export Slides…',
+    'export.pptx': 'Export PPTX…',
     'export.open_as_slides': 'Open as Slides',
     'slides.open': 'Open as Slides',
     'toc.title': 'Outline',
     'toc.empty': 'No headings yet',
     'width.toggle': 'Toggle full width',
     'search.placeholder': 'Find...',
+    'agent.writing': 'AI Writing…',
+    'agent.done': 'Write Complete',
     'app.name': 'huasMD'
   }
 }

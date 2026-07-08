@@ -254,6 +254,7 @@ function renderExportPanel(): void {
     <div class="pop-item" data-export="pdf"><span>${t('export.pdf')}</span></div>
     <div class="pop-item" data-export="html"><span>${t('export.html')}</span></div>
     <div class="pop-item" data-export="slides"><span>${t('export.slides')}</span></div>
+    <div class="pop-item" data-export="pptx"><span>${t('export.pptx')}</span></div>
     <div class="pop-item" data-export="open-as-slides"><span>${t('export.open_as_slides')}</span></div>
   `
   popPanelEl().querySelectorAll<HTMLElement>('[data-export]').forEach(el => {
@@ -263,6 +264,7 @@ function renderExportPanel(): void {
       if (action === 'pdf') api.exportPDF()
       else if (action === 'html') triggerExportHTML()
       else if (action === 'slides') api.exportSlides(getContent())
+      else if (action === 'pptx') api.exportPptx(getContent())
       else if (action === 'open-as-slides') api.openAsSlides(getContent())
     })
   })
@@ -527,9 +529,22 @@ async function init(): Promise<void> {
     if (result) applyTheme(`custom:${result.name}`, result.css)
   })
 
+  const agentIndicator = document.getElementById('agent-indicator')
   const agentDot = document.getElementById('agent-dot')
+  const agentLabel = document.getElementById('agent-label')
   api.onAgentActivity((state) => {
-    if (agentDot) agentDot.className = state === 'idle' ? '' : state
+    if (!agentDot || !agentLabel || !agentIndicator) return
+    if (state === 'idle') {
+      agentIndicator.className = 'hidden'
+    } else if (state === 'active') {
+      agentIndicator.className = 'show'
+      agentDot.className = 'active'
+      agentLabel.textContent = t('agent.writing')
+    } else if (state === 'cooldown') {
+      agentIndicator.className = 'show'
+      agentDot.className = 'cooldown'
+      agentLabel.textContent = t('agent.done')
+    }
   })
 
   // Drag & drop file open

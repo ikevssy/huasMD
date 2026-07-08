@@ -271,15 +271,15 @@
     }
 
     function parseSlides(body) {
-      // Strip multi-line HTML comments before splitting into slides
-      const stripped = body.replace(/<!--[\s\S]*?-->/g, '');
-      return stripped.split(/\n---\n/).map(raw => {
+      return body.split(/\n---\n/).map(raw => {
         const lines = raw.trim().split('\n');
         const slide = { type: 'section', title: '', blocks: [] };
 
-        // Check first line for directive comment (single-line only, already stripped above)
-        if (lines[0] && lines[0].trim().startsWith('<!--')) {
-          Object.assign(slide, parseDirective(lines.shift()));
+        // Parse directive from first line (single-line HTML comment)
+        const firstLine = (lines[0] || '').trim();
+        if (firstLine.startsWith('<!--') && firstLine.endsWith('-->')) {
+          Object.assign(slide, parseDirective(firstLine));
+          lines.shift();
         }
 
         lines.forEach(line => {
@@ -302,8 +302,7 @@
     // Re-parse blocks respecting blank-line paragraph breaks
     // Blocks can be text strings or {type:'image', src, alt} objects
     function mergeBlocks(raw, slide) {
-      const stripped = raw.replace(/<!--[\s\S]*?-->/g, '');
-      const lines = stripped.trim().split('\n');
+      const lines = raw.trim().split('\n');
       const blocks = [];
       let current = [];
 
@@ -519,7 +518,9 @@
     fetch('slides.md')
       .then(r => r.text())
       .then(text => {
-        const { meta, body } = parseFrontmatter(text);
+        // Normalize line endings (Windows \r\n → \n)
+        const normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        const { meta, body } = parseFrontmatter(normalized);
         const slides = parseSlides(body);
         buildDeck(slides, meta);
         initNav();

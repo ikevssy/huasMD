@@ -23,16 +23,49 @@ html, body {
   padding: 0 12px;
 }
 
+/* Agent activity indicator (in statusbar, right of save button) */
+#agent-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#agent-indicator.show {
+  opacity: 1;
+}
+
+#agent-indicator.hidden {
+  display: none;
+}
+
 #agent-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--text-muted);
-  opacity: 0.3;
-  -webkit-app-region: no-drag;
-  transition: background 0.3s ease, opacity 0.3s ease;
   flex-shrink: 0;
-  margin-left: 4px;
+  transition: background 0.3s;
+}
+
+#agent-dot.active {
+  background: #e8913a;
+  animation: agent-breathe 2s ease-in-out infinite;
+}
+
+#agent-dot.cooldown {
+  background: #3dba5c;
+  animation: none;
+}
+
+#agent-label {
+  color: var(--text-muted);
+  font-size: 11px;
 }
 
 /* Titlebar icon buttons (slides / toc / width) share a common style */
@@ -81,23 +114,6 @@ html, body {
 
 #toc-btn {
   display: flex;
-}
-
-#agent-dot.active {
-  background: #e8913a;
-  opacity: 1;
-  animation: agent-breathe 2s ease-in-out infinite;
-}
-
-#agent-dot.cooldown {
-  background: #3dba5c;
-  opacity: 1;
-  animation: none;
-}
-
-@keyframes agent-breathe {
-  0%, 100% { opacity: 0.45; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.05); }
 }
 
 #editor {

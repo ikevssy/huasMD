@@ -4,6 +4,7 @@ import { readFile, writeFile, readdir, copyFile, mkdir } from 'fs/promises'
 import { watch, FSWatcher, existsSync, readdirSync, readFileSync, createServer } from 'fs'
 import { IncomingMessage, ServerResponse } from 'http'
 import { createServer as createHttpServer } from 'http'
+import { buildPPTX } from './export-pptx'
 
 // Custom themes directory
 const themesDir = join(app.getPath('home'), '.huasMD', 'themes')
@@ -375,7 +376,12 @@ ipcMain.handle('export-pdf', async (event) => {
   try {
     // Expand editor to full content height for printing
     const cssKey = await win.webContents.insertCSS(
-      'html, body { height: auto !important; overflow: visible !important; } #titlebar { display: none !important; } #editor { height: auto !important; overflow: visible !important; } #editor .ProseMirror { min-height: auto !important; }'
+      'html, body { height: auto !important; overflow: visible !important; } ' +
+      '#titlebar, #statusbar, #pop-panel, #toc-panel, #search-bar { display: none !important; } ' +
+      '#editor { height: auto !important; overflow: visible !important; } ' +
+      '#editor .ProseMirror { min-height: auto !important; } ' +
+      '#editor .ProseMirror p { margin: 0.15em 0; } ' +
+      '#editor .ProseMirror img { margin: 0; }'
     )
     const pdfData = await win.webContents.printToPDF({
       marginType: 0,
@@ -574,11 +580,20 @@ ipcMain.handle('export-slides', async (event, content: string) => {
     destHtml = result.filePath
   }
 
-  // Read template and inline the markdown content
-  let html = await readFile(join(srcDir, 'template.html'), 'utf-8')
+  // Read template — try srcDir first (if open-as-slides was used), fallback to bundled
+  let html: string
+  try {
+    html = await readFile(join(srcDir, 'template.html'), 'utf-8')
+  } catch {
+    // Fall back to bundled template
+    html = await readFile(join(slidesTemplateDir, 'template.html'), 'utf-8')
+  }
+
+  // Normalize line endings in content (Windows \r\n → \n)
+  const normalized = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
 
   // Replace fetch('slides.md') with inline content
-  const escaped = content.replace(/`/g, '\\`').replace(/\$/g, '\\$')
+  const escaped = normalized.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$')
   html = html.replace(
     /fetch\('[^']+'\)\s*\n?\s*\.then\(r => r\.text\(\)\)/,
     `Promise.resolve(\`${escaped}\`)`
@@ -620,6 +635,29 @@ ipcMain.handle('export-slides', async (event, content: string) => {
   await writeFile(destHtml, html, 'utf-8')
   shell.showItemInFolder(destHtml)
   return true
+})
+
+ipcMain.handle('export-pptx', async (event, content: string) => {
+  const win = getWinFromEvent(event)
+  if (!win) return false
+  const state = getState(win)
+  if (!state.filePath) return false
+
+  const result = await dialog.showSaveDialog(win, {
+    defaultPath: suggestFileName(win, content),
+    filters: [{ name: 'PowerPoint', extensions: ['pptx'] }]
+  })
+  if (result.canceled || !result.filePath) return false
+
+  try {
+    const srcDir = dirname(state.filePath)
+    const arrayBuf = await buildPPTX(content, srcDir)
+    await writeFile(result.filePath, Buffer.from(arrayBuf))
+    shell.showItemInFolder(result.filePath)
+    return true
+  } catch {
+    return false
+  }
 })
 
 ipcMain.handle('load-custom-theme', async (event) => {
@@ -797,7 +835,7 @@ function buildMenu(): void {
       submenu: [
         {
           label: 'About huasMD',
-          click: () => shell.openExternal('https://github.com/ikevssy/huasMD')
+          click: () => shell.openExternal('https://github.com/ikevss/huasMD')
         }
       ]
     }

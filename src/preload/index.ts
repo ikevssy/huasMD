@@ -28,6 +28,7 @@ export interface ElectronAPI {
   onSetTheme: (callback: (theme: string) => void) => void
   onSetCustomCSS: (callback: (css: string) => void) => void
   exportSlides: (content: string) => Promise<boolean>
+  exportPptx: (content: string) => Promise<boolean>
   onMenuExportSlides: (callback: () => void) => void
   onAgentActivity: (callback: (state: string) => void) => void
 }
@@ -40,6 +41,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   exportPDF: () => ipcRenderer.invoke('export-pdf'),
   exportHTML: (html: string) => ipcRenderer.invoke('export-html', html),
   exportSlides: (content: string) => ipcRenderer.invoke('export-slides', content),
+  exportPptx: (content: string) => ipcRenderer.invoke('export-pptx', content),
   newSlides: () => ipcRenderer.invoke('new-slides'),
   openAsSlides: (content: string) => ipcRenderer.invoke('open-as-slides', content),
   loadCustomTheme: () => ipcRenderer.invoke('load-custom-theme'),

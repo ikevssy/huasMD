@@ -100,7 +100,7 @@ page: YOUR NAME
 
 ## 下载
 
-> 查看 [Releases](https://github.com/ikevssy/huasMD/releases) 获取最新构建。
+> 查看 [Releases](https://github.com/ikevss/huasMD/releases) 获取最新构建。
 
 | 平台 | 格式 |
 |------|------|
@@ -145,7 +145,7 @@ huasMD 有意保持简单：
 ## 开发
 
 ```bash
-git clone https://github.com/ikevssy/huasMD.git
+git clone https://github.com/ikevss/huasMD.git
 cd huasMD
 npm install
 npm run dev
