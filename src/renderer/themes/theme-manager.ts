@@ -3,6 +3,7 @@ const themes: Record<string, string> = {
   light: 'theme-light',
   dark: 'theme-dark',
   elegant: 'theme-elegant',
+  elegant_warm: 'theme-elegant_warm',
   newsprint: 'theme-newsprint',
   sepia: 'theme-sepia',
   solarized_light: 'theme-solarized_light',
@@ -16,7 +17,7 @@ const themes: Record<string, string> = {
 
 // Ordered list of built-in theme keys (for rendering in panels)
 export const builtinThemeKeys = [
-  'light', 'dark', 'elegant', 'newsprint',
+  'light', 'dark', 'elegant', 'elegant_warm', 'newsprint',
   'sepia', 'solarized_light', 'github_light',
   'material_light', 'material_ocean',
   'ayu', 'gandalf', 'duotone_heat'

@@ -1,0 +1,59 @@
+:root {
+  --bg-color: #F7F1ED;
+  --text-color: #2c2c2c;
+  --text-muted: #777;
+  --border-color: #d8d3ce;
+  --link-color: #c44b2b;
+  --code-bg: #e8e4df;
+  --code-block-bg: #2c2c2c;
+  --code-block-text: #e0dcd7;
+  --blockquote-border: #c44b2b;
+  --blockquote-bg: #eae6e1;
+  --table-header-bg: #eae6e1;
+  --selection-bg: rgba(196, 75, 43, 0.2);
+  --statusbar-bg: #eae6e1;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --accent-color: #c44b2b;
+  --accent-soft: rgba(196, 75, 43, 0.12);
+}
+
+/* 典雅字体 */
+#editor .ProseMirror {
+  font-family: 'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', Georgia, serif;
+  line-height: 1.9;
+}
+
+/* 粗体用强调色 */
+#editor .ProseMirror strong {
+  color: #c44b2b;
+}
+
+/* 行内代码用强调色 */
+#editor .ProseMirror code {
+  color: #c44b2b;
+}
+
+/* 代码块 */
+#editor .ProseMirror pre {
+  color: #e0dcd7;
+}
+
+#editor .ProseMirror pre code {
+  color: inherit;
+}
+
+/* 引用块 */
+#editor .ProseMirror blockquote {
+  background: #eae6e1;
+  padding: 15px 20px 15px 25px;
+}
+
+/* 表格 */
+#editor .ProseMirror table th {
+  border-bottom: 2px solid #c44b2b;
+}
+
+#editor .ProseMirror table td {
+  border-left: none;
+  border-right: none;
+}

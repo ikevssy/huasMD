@@ -665,6 +665,62 @@ body.theme-elegant #editor .ProseMirror table td {
   border-right: none;
 }
 
+/* --- Elegant 暖色变体 --- */
+body.theme-elegant_warm {
+  --bg-color: #F7F1ED;
+  --text-color: #2c2c2c;
+  --text-muted: #777;
+  --border-color: #d8d3ce;
+  --link-color: #c44b2b;
+  --code-bg: #e8e4df;
+  --code-block-bg: #2c2c2c;
+  --code-block-text: #e0dcd7;
+  --blockquote-border: #c44b2b;
+  --blockquote-bg: #eae6e1;
+  --table-header-bg: #eae6e1;
+  --table-border: #d8d3ce;
+  --selection-bg: rgba(196, 75, 43, 0.2);
+  --statusbar-bg: #eae6e1;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --accent-color: #c44b2b;
+  --accent-soft: rgba(196, 75, 43, 0.12);
+}
+
+body.theme-elegant_warm #editor .ProseMirror {
+  font-family: 'LXGW WenKai', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', Georgia, serif;
+  line-height: 1.9;
+}
+
+body.theme-elegant_warm #editor .ProseMirror strong {
+  color: #c44b2b;
+}
+
+body.theme-elegant_warm #editor .ProseMirror code {
+  color: #c44b2b;
+}
+
+body.theme-elegant_warm #editor .ProseMirror pre {
+  color: var(--code-block-text);
+}
+
+body.theme-elegant_warm #editor .ProseMirror pre code {
+  color: inherit;
+}
+
+body.theme-elegant_warm #editor .ProseMirror blockquote {
+  background: var(--blockquote-bg);
+  padding: 15px 20px 15px 25px;
+}
+
+body.theme-elegant_warm #editor .ProseMirror table th {
+  border-bottom: 2px solid #c44b2b;
+}
+
+body.theme-elegant_warm #editor .ProseMirror table td {
+  border-left: none;
+  border-right: none;
+}
+
 body.theme-newsprint {
   --bg-color: #f5f2eb;
   --text-color: #1a1a1a;
