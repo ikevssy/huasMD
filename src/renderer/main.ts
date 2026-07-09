@@ -73,7 +73,7 @@ function initWidthToggle(): void {
   widthToggleEl().addEventListener('click', () => {
     const wide = document.body.classList.toggle('wide-mode')
     widthToggleEl().classList.toggle('active', wide)
-    localStorage.setItem('colamd-width', wide ? 'wide' : 'narrow')
+    localStorage.setItem('huasmd-width', wide ? 'wide' : 'narrow')
   })
 }
 
@@ -82,7 +82,7 @@ function initWidthToggle(): void {
 interface TocEntry { level: number; text: string; el: Element }
 
 function buildTOC(): TocEntry[] {
-  const headings = document.querySelectorAll('#editor .ProseMirror h1, h2, h3, h4, h5, h6')
+  const headings = document.querySelectorAll('#editor .ProseMirror h1, #editor .ProseMirror h2, #editor .ProseMirror h3, #editor .ProseMirror h4, #editor .ProseMirror h5, #editor .ProseMirror h6')
   return Array.from(headings).map(h => ({
     level: parseInt(h.tagName[1], 10),
     text: h.textContent || '',
@@ -183,9 +183,17 @@ function renderThemePanel(): void {
     el.addEventListener('click', () => {
       const key = el.dataset.theme!
       applyTheme(key)
-      closeAllPanels()
-      // Re-render to update check marks
-      setTimeout(() => { openPopover('theme') }, 0)
+      // Update checkmarks in-place without closing/reopening
+      popPanelEl().querySelectorAll<HTMLElement>('[data-theme]').forEach(el2 => {
+        const check = el2.querySelector('.check')
+        if (el2.dataset.theme === key) {
+          if (!check) { const s = document.createElement('span'); s.className = 'check'; s.textContent = '✓'; el2.appendChild(s) }
+        } else {
+          if (check) check.remove()
+        }
+      })
+      // Wait for async custom theme list to update, then close
+      setTimeout(() => closeAllPanels(), 200)
     })
   })
 
@@ -453,11 +461,12 @@ async function init(): Promise<void> {
 
   // Theme
   const savedTheme = loadSavedTheme()
-  applyTheme(savedTheme)
   if (savedTheme.startsWith('custom:')) {
     const fileName = savedTheme.slice(7)
     const css = await api.loadThemeCSS(fileName)
-    if (css) applyTheme(savedTheme, css)
+    applyTheme(savedTheme, css || undefined)
+  } else {
+    applyTheme(savedTheme)
   }
 
   // i18n
@@ -550,13 +559,16 @@ async function init(): Promise<void> {
   // Auto-update status
   const updateIndicator = document.getElementById('update-indicator')
   const updateText = document.getElementById('update-text')
+  let updateReady = false
   api.onUpdateStatus((data) => {
     if (!updateIndicator || !updateText) return
+    updateReady = false
     if (data.status === 'downloading') {
       updateIndicator.className = ''
       updateText.textContent = data.text || ''
       updateIndicator.style.cursor = 'default'
     } else if (data.status === 'ready') {
+      updateReady = true
       updateIndicator.className = ''
       updateText.textContent = data.text || ''
       updateIndicator.title = t('update.install')
@@ -567,17 +579,13 @@ async function init(): Promise<void> {
   })
   if (updateIndicator) {
     updateIndicator.addEventListener('click', () => {
-      const text = updateText?.textContent || ''
-      if (text.includes('已就绪') || text.includes('ready')) {
-        api.installUpdate()
-      }
+      if (updateReady) api.installUpdate()
     })
-    // Right-click or double-click to dismiss
     updateIndicator.addEventListener('contextmenu', (e) => {
       e.preventDefault()
       api.dismissUpdate()
     })
-    updateIndicator.title = t('update.install') + ' | 右键关闭提示'
+    updateIndicator.title = t('update.install') + ' | ' + t('update.dismissHint')
   }
 
   // Drag & drop file open

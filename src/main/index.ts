@@ -732,10 +732,18 @@ function buildMenu(): void {
   } catch { /* themes dir may not exist yet */ }
 
   const themeSubmenu: Electron.MenuItemConstructorOptions[] = [
-    { label: 'Light', click: () => sendToFocused('set-theme', 'light') },
-    { label: 'Dark', click: () => sendToFocused('set-theme', 'dark') },
-    { label: 'Elegant', click: () => sendToFocused('set-theme', 'elegant') },
-    { label: 'Newsprint', click: () => sendToFocused('set-theme', 'newsprint') },
+    { label: 'Light / 明亮', click: () => sendToFocused('set-theme', 'light') },
+    { label: 'Dark / 暗黑', click: () => sendToFocused('set-theme', 'dark') },
+    { label: 'Elegant / 典雅', click: () => sendToFocused('set-theme', 'elegant') },
+    { label: 'Newsprint / 报纸', click: () => sendToFocused('set-theme', 'newsprint') },
+    { label: 'Sepia / 羊皮纸', click: () => sendToFocused('set-theme', 'sepia') },
+    { label: 'Solarized Light / 太阳光', click: () => sendToFocused('set-theme', 'solarized_light') },
+    { label: 'GitHub Light', click: () => sendToFocused('set-theme', 'github_light') },
+    { label: 'Material Light', click: () => sendToFocused('set-theme', 'material_light') },
+    { label: 'Material Ocean', click: () => sendToFocused('set-theme', 'material_ocean') },
+    { label: 'Ayu Light / 暮光', click: () => sendToFocused('set-theme', 'ayu') },
+    { label: 'Gandalf / 灰羽', click: () => sendToFocused('set-theme', 'gandalf') },
+    { label: 'Rose Duotone / 暖樱', click: () => sendToFocused('set-theme', 'duotone_heat') },
   ]
   if (customThemeItems.length > 0) {
     themeSubmenu.push({ type: 'separator' }, ...customThemeItems)
@@ -933,27 +941,6 @@ function sendToAll(channel: string, data: unknown): void {
     if (!win.isDestroyed()) win.webContents.send(channel, data)
   }
 }
-
-// IPC: manual check for updates
-ipcMain.handle('check-update', async () => {
-  if (!app.isPackaged) return { status: 'dev' }
-  try {
-    const result = await autoUpdater.checkForUpdates()
-    if (!result) return { status: 'up-to-date' }
-    return updateDownloaded
-      ? { status: 'ready', text: `新版本 ${result.updateInfo.version} 已就绪` }
-      : { status: 'checking' }
-  } catch {
-    return { status: 'error' }
-  }
-})
-
-// IPC: install update now
-ipcMain.handle('install-update', () => {
-  if (updateDownloaded) {
-    autoUpdater.quitAndInstall(false, true)
-  }
-})
 
 // ─── App lifecycle ──────────────────────────────────────────────────────────
 

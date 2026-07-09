@@ -835,6 +835,90 @@ body.theme-material_ocean #editor .ProseMirror code {
   color: #84ffff;
 }
 
+/* --- Ayu Light / 暮光: warm orange accent on muted warm-gray base --- */
+body.theme-ayu {
+  --bg-color: #fafafa;
+  --text-color: #6b6884;
+  --text-muted: #8d8f95;
+  --border-color: #bfc1c4;
+  --link-color: #e66700;
+  --code-bg: #ffffff;
+  --code-block-bg: #272d38;
+  --code-block-text: #e6e1cf;
+  --blockquote-border: #ff6a00;
+  --table-header-bg: #f0f0f0;
+  --selection-bg: rgba(255, 106, 0, 0.18);
+  --statusbar-bg: #f5f5f5;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --accent-color: #ff6a00;
+  --accent-soft: rgba(255, 106, 0, 0.12);
+}
+
+body.theme-ayu #editor .ProseMirror strong {
+  color: #ff6a00;
+  font-weight: 700;
+}
+
+body.theme-ayu #editor .ProseMirror code {
+  color: #e66700;
+}
+
+/* --- Gandalf / 灰羽: rose accent on cool gray palette --- */
+body.theme-gandalf {
+  --bg-color: #f0f0f0;
+  --text-color: #455260;
+  --text-muted: #7c8291;
+  --border-color: #c8cdda;
+  --link-color: #80394b;
+  --code-bg: #f8f7f9;
+  --code-block-bg: #3e4a62;
+  --code-block-text: #e8e9ec;
+  --blockquote-border: #a04c6b;
+  --table-header-bg: #e8e8e8;
+  --selection-bg: rgba(160, 76, 107, 0.18);
+  --statusbar-bg: #ebebeb;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --accent-color: #a04c6b;
+  --accent-soft: rgba(160, 76, 107, 0.12);
+}
+
+body.theme-gandalf #editor .ProseMirror strong {
+  color: #a04c6b;
+  font-weight: 700;
+}
+
+body.theme-gandalf #editor .ProseMirror code {
+  color: #80394b;
+}
+
+/* --- Rose Duotone / 暖樱: pink-purple two-tone warmth --- */
+body.theme-duotone_heat {
+  --bg-color: #fbfaf9;
+  --text-color: #656065;
+  --text-muted: #928e93;
+  --border-color: #d3c5d3;
+  --link-color: #b747af;
+  --code-bg: #fffdfd;
+  --code-block-bg: #595459;
+  --code-block-text: #fbfaf9;
+  --blockquote-border: #ca7cd0;
+  --table-header-bg: #f7f1f7;
+  --selection-bg: rgba(183, 71, 175, 0.18);
+  --statusbar-bg: #f6f3f6;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --accent-color: #b747af;
+  --accent-soft: rgba(183, 71, 175, 0.12);
+}
+
+body.theme-duotone_heat #editor .ProseMirror strong {
+  color: #b747af;
+  font-weight: 700;
+}
+
+body.theme-duotone_heat #editor .ProseMirror code {
+  color: #8a4aa9;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

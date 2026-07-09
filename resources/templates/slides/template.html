@@ -312,6 +312,8 @@
 
       lines.forEach(line => {
         if (line.startsWith('#')) return;
+        // Skip HTML comment directives
+        if (line.trim().startsWith('<!--') && line.trim().endsWith('-->')) return;
         const imgMatch = line.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
         if (imgMatch) {
           flushText();

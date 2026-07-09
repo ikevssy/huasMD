@@ -30,6 +30,7 @@ export interface ElectronAPI {
   exportSlides: (content: string) => Promise<boolean>
   exportPptx: (content: string) => Promise<boolean>
   onMenuExportSlides: (callback: () => void) => void
+  onMenuImportTheme: (callback: () => void) => void
   onAgentActivity: (callback: (state: string) => void) => void
   checkUpdate: () => Promise<{ status: string; text?: string }>
   installUpdate: () => Promise<void>

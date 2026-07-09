@@ -8,14 +8,18 @@ const themes: Record<string, string> = {
   solarized_light: 'theme-solarized_light',
   github_light: 'theme-github_light',
   material_light: 'theme-material_light',
-  material_ocean: 'theme-material_ocean'
+  material_ocean: 'theme-material_ocean',
+  ayu: 'theme-ayu',
+  gandalf: 'theme-gandalf',
+  duotone_heat: 'theme-duotone_heat'
 }
 
 // Ordered list of built-in theme keys (for rendering in panels)
 export const builtinThemeKeys = [
   'light', 'dark', 'elegant', 'newsprint',
   'sepia', 'solarized_light', 'github_light',
-  'material_light', 'material_ocean'
+  'material_light', 'material_ocean',
+  'ayu', 'gandalf', 'duotone_heat'
 ]
 
 let customStyleEl: HTMLStyleElement | null = null

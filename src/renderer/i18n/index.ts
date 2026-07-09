@@ -22,6 +22,9 @@ const dict: Record<Lang, Dict> = {
     'theme.github_light': 'GitHub 明亮',
     'theme.material_light': 'Material 明亮',
     'theme.material_ocean': 'Material 海洋',
+    'theme.ayu': '暮光',
+    'theme.gandalf': '灰羽',
+    'theme.duotone_heat': '暖樱',
     // Theme panel
     'theme.import': '导入主题…',
     'theme.custom': '自定义',
@@ -31,7 +34,6 @@ const dict: Record<Lang, Dict> = {
     // Export panel
     'export.pdf': '导出 PDF…',
     'export.html': '导出 HTML…',
-    'export.slides': '导出 HTML 幻灯片…',
     'export.pptx': '导出 PPTX…',
     'export.slides_html': '导出 HTML 幻灯片…',
     'export.open_as_slides': '作为幻灯片打开',
@@ -65,6 +67,9 @@ const dict: Record<Lang, Dict> = {
     'theme.github_light': 'GitHub Light',
     'theme.material_light': 'Material Light',
     'theme.material_ocean': 'Material Ocean',
+    'theme.ayu': 'Ayu Light',
+    'theme.gandalf': 'Gandalf',
+    'theme.duotone_heat': 'Rose Duotone',
     'theme.import': 'Import Theme…',
     'theme.custom': 'Custom',
     'lang.zh': '中文',
