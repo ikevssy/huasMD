@@ -604,4 +604,4 @@ async function init(): Promise<void> {
   refreshTOC()
 }
 
-init().catch((e) => console.error('ColaMD init failed:', e))
+init().catch((e) => console.error('huasMD init failed:', e))
