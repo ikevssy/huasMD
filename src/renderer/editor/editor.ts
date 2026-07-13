@@ -8,6 +8,7 @@ import { listener, listenerCtx } from '@milkdown/kit/plugin/listener'
 import { clipboard } from '@milkdown/kit/plugin/clipboard'
 import { replaceAll } from '@milkdown/kit/utils'
 import { htmlView } from './html-view'
+import { mermaidPlugin } from '@xz-summer/milkdown-mermaid'
 
 import '@milkdown/kit/prose/view/style/prosemirror.css'
 
@@ -81,6 +82,7 @@ export async function createEditor(
     .use(history)
     .use(listener)
     .use(clipboard)
+    .use(mermaidPlugin)
     .use(htmlView)
     .create()
 
