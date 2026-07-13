@@ -699,6 +699,15 @@ ipcMain.handle('get-custom-themes', async () => {
   return scanCustomThemes()
 })
 
+// Bookmark support
+ipcMain.handle('check-file-exists', async (_event, filePath: string) => {
+  return existsSync(filePath)
+})
+
+ipcMain.handle('open-folder', async (_event, filePath: string) => {
+  shell.showItemInFolder(filePath)
+})
+
 // Menu — targets the focused window
 
 function getFocusedWindow(): BrowserWindow | null {

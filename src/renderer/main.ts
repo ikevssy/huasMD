@@ -144,6 +144,8 @@ function closeAllPanels(): void {
   document.querySelectorAll<HTMLElement>('.sb-pop').forEach(b => b.classList.remove('active'))
   tocPanelEl().classList.add('hidden')
   tocBtnEl().classList.remove('active')
+  const bmPanel = document.getElementById('bookmark-panel')
+  if (bmPanel) bmPanel.classList.add('hidden')
 }
 
 function positionPanel(triggerBtn: HTMLElement): void {
@@ -454,6 +456,145 @@ function initSearch(): void {
   closeBtn.addEventListener('click', () => hideSearch())
 }
 
+// ─── Bookmarks ───────────────────────────────────────────────────────────────
+
+interface Bookmark { path: string; addedAt: number }
+const BM_KEY = 'huasmd-bookmarks'
+
+function loadBookmarks(): Bookmark[] {
+  try { return JSON.parse(localStorage.getItem(BM_KEY) || '[]') }
+  catch { return [] }
+}
+
+function saveBookmarks(bm: Bookmark[]): void {
+  localStorage.setItem(BM_KEY, JSON.stringify(bm))
+}
+
+function toggleBookmark(filePath: string): boolean {
+  const bm = loadBookmarks()
+  const idx = bm.findIndex(b => b.path === filePath)
+  if (idx >= 0) { bm.splice(idx, 1); saveBookmarks(bm); return false }
+  bm.push({ path: filePath, addedAt: Date.now() })
+  saveBookmarks(bm)
+  return true
+}
+
+function isBookmarked(filePath: string): boolean {
+  return loadBookmarks().some(b => b.path === filePath)
+}
+
+async function renderBookmarkPanel(): Promise<void> {
+  const api = window.electronAPI
+  const listEl = document.getElementById('bookmark-list')
+  if (!listEl) return
+  const bm = loadBookmarks()
+  if (bm.length === 0) {
+    listEl.innerHTML = `<div class="toc-empty">${t('bookmark.empty')}</div>`
+    return
+  }
+  const items = await Promise.all(bm.map(async (b) => {
+    const exists = await api.checkFileExists(b.path)
+    const name = b.path.split(/[/\\]/).pop() || b.path
+    return { ...b, name, exists }
+  }))
+  listEl.innerHTML = items.map((b, i) => `
+    <div class="bookmark-item${b.exists ? '' : ' missing'}" data-idx="${i}">
+      <span class="bm-icon">${b.exists ? '📄' : '⚠️'}</span>
+      <div class="bm-info">
+        <div class="bm-name">${b.name}</div>
+        <div class="bm-path">${b.exists ? b.path : t('bookmark.missing') + ': ' + b.path}</div>
+      </div>
+      <button class="bm-remove" title="${t('bookmark.remove')}">✕</button>
+    </div>
+  `).join('')
+
+  // Wire click handlers
+  listEl.querySelectorAll<HTMLElement>('.bookmark-item').forEach((el) => {
+    el.addEventListener('click', async (e) => {
+      const idx = parseInt(el.dataset.idx || '')
+      if (isNaN(idx)) return
+      const b = items[idx]
+      if (!b) return
+
+      // If clicking remove button
+      if ((e.target as HTMLElement).classList.contains('bm-remove')) {
+        e.stopPropagation()
+        const bm = loadBookmarks()
+        bm.splice(idx, 1)
+        saveBookmarks(bm)
+        updateBookmarkBtn()
+        renderBookmarkPanel()
+        return
+      }
+
+      // If file exists, open it
+      if (b.exists) {
+        const result = await api.openFilePath(b.path)
+        if (result) setContent(result.content)
+        document.getElementById('bookmark-panel')?.classList.add('hidden')
+        return
+      }
+
+      // File missing: confirm dialog with option to open folder
+      const choice = confirm(`${t('bookmark.missing')}\n\n${b.path}\n\n[OK] ${t('bookmark.remove')}    [Cancel] ${t('bookmark.openFolder')}`)
+      if (choice) {
+        // Remove
+        const bm = loadBookmarks()
+        const fidx = bm.findIndex(x => x.path === b.path)
+        if (fidx >= 0) { bm.splice(fidx, 1); saveBookmarks(bm) }
+        updateBookmarkBtn()
+        renderBookmarkPanel()
+      }
+    })
+  })
+}
+
+function updateBookmarkBtn(): void {
+  const btn = document.getElementById('bookmark-btn')
+  // currentFilePath is tracked via last opened file — use a hidden data attr
+  const path = btn?.dataset.currentPath || ''
+  if (btn) btn.classList.toggle('bookmarked', isBookmarked(path))
+}
+
+function initBookmarks(): void {
+  const btn = document.getElementById('bookmark-btn')
+  const panel = document.getElementById('bookmark-panel')
+  if (!btn || !panel) return
+
+  const api = window.electronAPI
+
+  api.onFileOpened((data) => {
+    btn.dataset.currentPath = data.path
+    updateBookmarkBtn()
+  })
+
+  btn.addEventListener('click', async () => {
+    const path = btn.dataset.currentPath
+    if (!path) return
+    const active = toggleBookmark(path)
+    btn.classList.toggle('bookmarked', active)
+  })
+
+  // Right-click to show bookmark list
+  btn.addEventListener('contextmenu', (e) => {
+    e.preventDefault()
+    const hidden = panel.classList.contains('hidden')
+    closeAllPanels()
+    if (hidden) {
+      renderBookmarkPanel()
+      panel.classList.remove('hidden')
+    }
+  })
+
+  // Close panel on outside click
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement
+    if (!t.closest('#bookmark-panel') && !t.closest('#bookmark-btn')) {
+      panel.classList.add('hidden')
+    }
+  })
+}
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
 async function init(): Promise<void> {
@@ -486,6 +627,9 @@ async function init(): Promise<void> {
 
   // Search
   initSearch()
+
+  // Bookmarks
+  initBookmarks()
 
   // Click outside to close any open panel/popover
   document.addEventListener('click', (e) => {

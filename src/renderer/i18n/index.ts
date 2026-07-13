@@ -49,6 +49,12 @@ const dict: Record<Lang, Dict> = {
     'update.install': '点击安装更新',
     'update.dismissHint': '右键关闭提示',
     'update.upToDate': '已是最新版本',
+    'bookmark.toggle': '收藏当前文件',
+    'bookmark.title': '收藏列表',
+    'bookmark.empty': '暂无收藏',
+    'bookmark.missing': '文件已不存在',
+    'bookmark.openFolder': '打开文件夹',
+    'bookmark.remove': '移除',
     // Misc
     'app.name': 'huasMD'
   },
@@ -91,6 +97,12 @@ const dict: Record<Lang, Dict> = {
     'agent.done': 'Write Complete',
     'update.install': 'Click to install update',
     'update.upToDate': 'Already up to date',
+    'bookmark.toggle': 'Bookmark file',
+    'bookmark.title': 'Bookmarks',
+    'bookmark.empty': 'No bookmarks',
+    'bookmark.missing': 'File not found',
+    'bookmark.openFolder': 'Open folder',
+    'bookmark.remove': 'Remove',
     'app.name': 'huasMD'
   }
 }

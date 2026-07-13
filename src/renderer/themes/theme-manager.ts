@@ -54,7 +54,7 @@ export function applyTheme(name: string, customCSS?: string): void {
 }
 
 export function loadSavedTheme(): string {
-  return localStorage.getItem('huasmd-theme') || 'elegant'
+  return localStorage.getItem('huasmd-theme') || 'elegant_warm'
 }
 
 export function getCurrentThemeClass(): string | null {

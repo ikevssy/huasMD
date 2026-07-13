@@ -36,6 +36,8 @@ export interface ElectronAPI {
   installUpdate: () => Promise<void>
   dismissUpdate: () => Promise<void>
   onUpdateStatus: (callback: (data: { status: string; text?: string }) => void) => void
+  checkFileExists: (path: string) => Promise<boolean>
+  openFolder: (path: string) => Promise<void>
 }
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -107,5 +109,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   dismissUpdate: () => ipcRenderer.invoke('dismiss-update'),
   onUpdateStatus: (callback: (data: { status: string; text?: string }) => void) => {
     ipcRenderer.on('update-status', (_event, data) => callback(data))
-  }
+  },
+  checkFileExists: (path: string) => ipcRenderer.invoke('check-file-exists', path),
+  openFolder: (path: string) => ipcRenderer.invoke('open-folder', path)
 } satisfies ElectronAPI)
