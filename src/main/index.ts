@@ -954,29 +954,35 @@ function sendToAll(channel: string, data: unknown): void {
 // ─── App lifecycle ──────────────────────────────────────────────────────────
 
 app.whenReady().then(() => {
-  ensureThemesDir()
-  buildMenu()
-  setupAutoUpdater()
+  try {
+    ensureThemesDir()
+    buildMenu()
+    setupAutoUpdater()
 
-  // Check command line args for file paths
-  const args = process.argv.slice(app.isPackaged ? 1 : 2)
-  const fileArgs = args.filter((arg) => !arg.startsWith('-'))
-  if (fileArgs.length > 0) {
-    pendingFilePaths = fileArgs
-  }
-
-  if (pendingFilePaths.length > 0) {
-    for (const fp of pendingFilePaths) {
-      createWindow(fp)
+    // Check command line args for file paths
+    const args = process.argv.slice(app.isPackaged ? 1 : 2)
+    const fileArgs = args.filter((arg) => !arg.startsWith('-'))
+    if (fileArgs.length > 0) {
+      pendingFilePaths = fileArgs
     }
-    pendingFilePaths = []
-  } else {
-    createWindow()
-  }
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
+    if (pendingFilePaths.length > 0) {
+      for (const fp of pendingFilePaths) {
+        createWindow(fp)
+      }
+      pendingFilePaths = []
+    } else {
+      createWindow()
+    }
+
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    })
+  } catch (e) {
+    console.error('huasMD startup error:', e)
+    // Still try to create a window even if something above failed
+    try { createWindow() } catch { /* give up */ }
+  }
 })
 
 app.on('window-all-closed', () => {
